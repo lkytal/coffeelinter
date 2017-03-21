@@ -24,7 +24,7 @@ export function activate(context: ExtensionContext) {
 	}
 
 	let client = new LanguageClient('CoffeeLint Client', serverOptions, clientOptions);
-	client.start();
+	context.subscriptions.push(client.start());
 
 	//let monitor = new SettingMonitor(client, 'coffeelinter').start();
 }

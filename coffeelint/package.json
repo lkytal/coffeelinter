@@ -4,7 +4,7 @@
 	"description": "CoffeeScript linter for VS Code.",
 	"author": "lkytal",
 	"publisher": "lkytal",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"license": "GPL",
 	"repository": {
 		"type": "git",
@@ -15,7 +15,7 @@
 	},
 	"icon": "icon.png",
 	"engines": {
-		"vscode": "^1.1.0"
+		"vscode": "^1.6.0"
 	},
 	"categories": [
 		"Linters"

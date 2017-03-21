@@ -18,16 +18,18 @@ This extension contributes the following settings:
 
 ## My Other extensions:
 
-### [FlatUI](https://marketplace.visualstudio.com/items?itemName=lkytal.FlatUI)
-### [Quick Task](https://marketplace.visualstudio.com/items?itemName=lkytal.quicktask)
-### [Pomodoro](https://marketplace.visualstudio.com/items?itemName=lkytal.pomodoro)
-### [Translator Plus](https://marketplace.visualstudio.com/items?itemName=lkytal.translatorplus)
+- ### [FlatUI](https://marketplace.visualstudio.com/items?itemName=lkytal.FlatUI)
+- ### [Quick Task](https://marketplace.visualstudio.com/items?itemName=lkytal.quicktask)
+- ### [Pomodoro](https://marketplace.visualstudio.com/items?itemName=lkytal.pomodoro)
+- ### [Translator Plus](https://marketplace.visualstudio.com/items?itemName=lkytal.translatorplus)
 
 ## Release Notes
 
-### 1.0.0
+### 1.0.1
+- Add missed dispose.
 
-Initial release.
+### 1.0.0
+- Initial release.
 
 
 > <div>Icons made by <a href="http://www.flaticon.com/authors/vectors-market" title="Vectors Market">Vectors Market</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
