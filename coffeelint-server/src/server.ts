@@ -17,7 +17,7 @@ let connection: IConnection = createConnection(new IPCMessageReader(process), ne
 let documents: TextDocuments = new TextDocuments();
 documents.listen(connection);
 
-let coffeLintConfigFile: string;
+let coffeeLintConfigFile: string;
 let projectLintConfig = {};
 
 interface Settings {
@@ -37,7 +37,7 @@ connection.onDidChangeConfiguration((change) => {
 
 function loadCoffeeLintConfig() {
 	try {
-		projectLintConfig = JSON.parse(fs.readFileSync(coffeLintConfigFile));
+		projectLintConfig = JSON.parse(fs.readFileSync(coffeeLintConfigFile));
 	}
 	catch (error) {
 
@@ -50,7 +50,9 @@ connection.onDidChangeWatchedFiles((change) => {
 });
 
 connection.onInitialize((params): InitializeResult => {
-	coffeLintConfigFile = path.join(params.rootPath, 'coffeelint.json');
+	coffeeLintConfigFile = path.join(params.rootPath, 'coffeelint.json');
+	//console.log(coffeeLintConfigFile);
+
 	loadCoffeeLintConfig();
 
 	return {
