@@ -19,6 +19,7 @@ documents.listen(connection);
 
 let coffeeLintConfigFile: string;
 let projectLintConfig = {};
+let useWorkspace = false;
 
 interface Settings {
 	coffeelinter: CoffeeLintSettings;
@@ -30,30 +31,35 @@ interface CoffeeLintSettings {
 }
 
 connection.onDidChangeConfiguration((change) => {
-	let settings = <Settings>change.settings;
-	projectLintConfig = settings.coffeelinter.defaultRules;
-	documents.all().forEach(validateTextDocument);
+	if (useWorkspace == false) {
+		let settings = <Settings>change.settings;
+		projectLintConfig = settings.coffeelinter.defaultRules;
+
+		documents.all().forEach(validateTextDocument);
+	}
 });
 
-function loadCoffeeLintConfig() {
+function loadWorkspaceConfig() {
 	try {
-		projectLintConfig = JSON.parse(fs.readFileSync(coffeeLintConfigFile));
+		let content = fs.readFileSync(coffeeLintConfigFile, 'utf-8').replace(new RegExp("//.*", "gi"), "");
+		projectLintConfig = JSON.parse(content);
+		useWorkspace = true;
 	}
 	catch (error) {
-
+		useWorkspace = false;
+		console.log("No lint config");
 	}
 }
 
 connection.onDidChangeWatchedFiles((change) => {
-	loadCoffeeLintConfig();
+	loadWorkspaceConfig();
 	documents.all().forEach(validateTextDocument);
 });
 
 connection.onInitialize((params): InitializeResult => {
 	coffeeLintConfigFile = path.join(params.rootPath, 'coffeelint.json');
-	//console.log(coffeeLintConfigFile);
 
-	loadCoffeeLintConfig();
+	loadWorkspaceConfig();
 
 	return {
 		capabilities: {
