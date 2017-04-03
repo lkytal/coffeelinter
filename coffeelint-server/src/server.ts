@@ -8,9 +8,9 @@ import {
 	CompletionItem, CompletionItemKind
 } from 'vscode-languageserver';
 
-var coffeeLint = require('coffeelint');
-var fs = require('fs');
-var path = require('path');
+let coffeeLint = require('coffeelint');
+let fs = require('fs');
+let path = require('path');
 
 let connection: IConnection = createConnection(new IPCMessageReader(process), new IPCMessageWriter(process));
 
@@ -19,6 +19,7 @@ documents.listen(connection);
 
 let coffeeLintConfigFile: string;
 let projectLintConfig = {};
+let enabled = true;
 let useWorkspace = false;
 
 interface Settings {
@@ -31,12 +32,11 @@ interface CoffeeLintSettings {
 }
 
 connection.onDidChangeConfiguration((change) => {
-	if (useWorkspace == false) {
-		let settings = <Settings>change.settings;
-		projectLintConfig = settings.coffeelinter.defaultRules;
+	let settings = <Settings>change.settings;
+	enabled = settings.coffeelinter.enable;
+	projectLintConfig = settings.coffeelinter.defaultRules;
 
-		documents.all().forEach(validateTextDocument);
-	}
+	documents.all().forEach(validateTextDocument);
 });
 
 function loadWorkspaceConfig() {
@@ -47,7 +47,7 @@ function loadWorkspaceConfig() {
 	}
 	catch (error) {
 		useWorkspace = false;
-		console.log("No lint config");
+		console.log("No locale lint config");
 	}
 }
 
@@ -74,11 +74,16 @@ documents.onDidChangeContent((change) => {
 
 function validateTextDocument(textDocument: TextDocument): void {
 	let diagnostics: Diagnostic[] = [];
+
+	if (!enabled) {
+		return connection.sendDiagnostics({ uri: textDocument.uri, diagnostics });
+	}
+
 	let text = textDocument.getText();
 	let issues = coffeeLint.lint(text, projectLintConfig);
 
-	for (var issue of issues) {
-		var severity;
+	for (let issue of issues) {
+		let severity;
 
 		if (issue.level === "warning" || issue.level === "warn") {
 			severity = DiagnosticSeverity.Warning;
