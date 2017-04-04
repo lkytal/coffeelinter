@@ -8,10 +8,10 @@
 	"license": "GPL",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/lkytal/coffeelint.git"
+		"url": "https://github.com/lkytal/coffeelinter.git"
 	},
 	"bugs": {
-		"url": "https://github.com/lkytal/coffeelint/issues"
+		"url": "https://github.com/lkytal/coffeelinter/issues"
 	},
 	"icon": "icon.png",
 	"engines": {
