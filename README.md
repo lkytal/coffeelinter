@@ -1,5 +1,7 @@
 # Coffee Lint for VSCode
 
+> Install [Coffee Lint](https://marketplace.visualstudio.com/items?itemName=lkytal.coffeelinter) via VSCode market.
+
 Linter for CoffeeScript, which integrates [CoffeeLint](http://www.coffeelint.org/) into VS Code.
 
 If you are new to CoffeeLint check the documentation [here](http://coffeelint.org/).
@@ -12,7 +14,11 @@ This extension contributes the following settings:
 
 - `coffeelinter.defaultRules`: default rules for coffeelint. You can modify it or overwrite it by adding a coffeelint.json file in the root of your workspace.
 
-> Install [Coffee Lint](https://marketplace.visualstudio.com/items?itemName=lkytal.coffeelinter) via VSCode market.
+## Source code structure
+
+- Extension itself in ./coffeelint
+
+- Language server in ./coffeelint-server
 
 ## My Other extensions
 
@@ -20,28 +26,6 @@ This extension contributes the following settings:
 - ### [Quick Task](https://marketplace.visualstudio.com/items?itemName=lkytal.quicktask)
 - ### [Pomodoro](https://marketplace.visualstudio.com/items?itemName=lkytal.pomodoro)
 - ### [Translator Plus](https://marketplace.visualstudio.com/items?itemName=lkytal.translatorplus)
-
-## Release Notes
-
-### 1.0.5
-
-- Corrected github link.
-
-### 1.0.4
-
-- Read enable config correctly.
-
-### 1.0.3
-
-- Use workspace config correctly.
-
-### 1.0.1
-
-- Add missed dispose.
-
-### 1.0.0
-
-- Initial release.
 
 ## Acknowlegment
 
