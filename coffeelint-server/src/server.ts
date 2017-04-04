@@ -34,7 +34,10 @@ interface CoffeeLintSettings {
 connection.onDidChangeConfiguration((change) => {
 	let settings = <Settings>change.settings;
 	enabled = settings.coffeelinter.enable;
-	projectLintConfig = settings.coffeelinter.defaultRules;
+
+	if (useWorkspace == false) {
+		projectLintConfig = settings.coffeelinter.defaultRules;
+	}
 
 	documents.all().forEach(validateTextDocument);
 });

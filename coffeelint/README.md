@@ -23,6 +23,10 @@ This extension contributes the following settings:
 
 ## Release Notes
 
+### 1.0.6
+
+- Roll back config reading.
+
 ### 1.0.5
 
 - Corrected github link.
