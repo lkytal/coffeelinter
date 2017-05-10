@@ -60,7 +60,8 @@ connection.onDidChangeWatchedFiles((change) => {
 });
 
 connection.onInitialize((params): InitializeResult => {
-	coffeeLintConfigFile = path.join(params.rootPath, 'coffeelint.json');
+	let sourcePath = params.rootPath || "";
+	coffeeLintConfigFile = path.join(sourcePath, 'coffeelint.json');
 
 	loadWorkspaceConfig();
 

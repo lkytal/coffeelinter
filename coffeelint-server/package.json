@@ -8,12 +8,13 @@
 		"node": "*"
 	},
 	"devDependencies": {
-		"typescript": "^2.2.2",
-		"vscode": "^1.1.0",
-		"@types/node": "^7.0.12"
+		"@types/mocha": "^2.2.41",
+		"@types/node": "^7.0.18",
+		"typescript": "^2.3.2",
+		"vscode": "^1.1.0"
 	},
 	"dependencies": {
-		"vscode-languageserver": "^3.2.0",
+		"vscode-languageserver": "^3.2.2",
 		"coffeelint": "^1.16.0"
 	},
 	"scripts": {
