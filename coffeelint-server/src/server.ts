@@ -110,7 +110,7 @@ function validateTextDocument(textDocument: TextDocument): void {
 			},
 			source: "CoffeeLint",
 			message: issue.message
-		})
+		});
 	}
 
 	connection.sendDiagnostics({ uri: textDocument.uri, diagnostics });

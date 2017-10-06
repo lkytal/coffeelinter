@@ -1,5 +1,10 @@
 # Coffee Lint for VSCode
 
+[![Dependency status](https://david-dm.org/lkytal/coffeelinter.svg?style=flat-square)](https://david-dm.org/lkytal/coffeelinter.svg?style=flat-square)
+<a href="https://marketplace.visualstudio.com/items?itemName=lkytal.coffeelinter"><img src="https://vsmarketplacebadge.apphb.com/installs/lkytal.coffeelinter.svg?style=flat-square" alt="Installs"></a>
+
+> Licensed by <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" title="Creative Commons BY-NC-SA 4.0" target="_blank">CC 4.0 BY-NC-SA</a>
+
 Linter for CoffeeScript, which integrates [CoffeeLint](http://www.coffeelint.org/) into VS Code.
 
 If you are new to CoffeeLint check the documentation [here](http://coffeelint.org/).
@@ -22,6 +27,10 @@ This extension contributes the following settings:
 - ### [Translator Plus](https://marketplace.visualstudio.com/items?itemName=lkytal.translatorplus)
 
 ## Release Notes
+
+### 1.1.0
+
+- Upgrade to use coffeelint v2.
 
 ### 1.0.7
 
@@ -54,4 +63,4 @@ This extension contributes the following settings:
 ## Acknowledgment
 
 > Based on [coffeelint](https://marketplace.visualstudio.com/items?itemName=slb235.vscode-coffeelint)
-> <div>Icons made by <a href="http://www.flaticon.com/authors/vectors-market" title="Vectors Market">Vectors Market</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+> <div>Icons made by <a href="https://www.flaticon.com/authors/vectors-market" title="Vectors Market">Vectors Market</a> from <a href="https://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="https://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>

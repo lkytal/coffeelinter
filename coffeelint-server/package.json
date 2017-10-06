@@ -1,21 +1,21 @@
 {
 	"name": "coffeelint-server",
 	"description": "Coffeelint server for vscode",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"author": "lkytal",
 	"license": "GPL",
 	"engines": {
 		"node": "*"
 	},
 	"devDependencies": {
-		"@types/mocha": "^2.2.41",
-		"@types/node": "^7.0.18",
-		"typescript": "^2.3.2",
-		"vscode": "^1.1.0"
+		"@types/mocha": "^2.2.43",
+		"@types/node": "^8.0.33",
+		"typescript": "^2.5.3",
+		"vscode": "^1.1.5"
 	},
 	"dependencies": {
-		"vscode-languageserver": "^3.2.2",
-		"coffeelint": "^1.16.0"
+		"vscode-languageserver": "^3.4.3",
+		"coffeelint": "^2.0.6"
 	},
 	"scripts": {
 		"compile": "installServerIntoExtension ../coffeelint ./package.json ./tsconfig.json && tsc -p .",
