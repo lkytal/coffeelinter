@@ -7,11 +7,11 @@
 			"type": "extensionHost",
 			"request": "launch",
             "runtimeExecutable": "${execPath}",
-            "args": ["--extensionDevelopmentPath=${workspaceRoot}" ],
+            "args": ["--extensionDevelopmentPath=${workspaceFolder}" ],
 			"stopOnEntry": false,
             "sourceMaps": true,
-            "outFiles": [ "${workspaceRoot}/out/src/**/*.js" ],
-			"preLaunchTask": "npm"
+            "outFiles": [ "${workspaceFolder}/out/src/**/*.js" ],
+			"preLaunchTask": "compile"
 		},
 		{
 			"name": "Launch Tests",
@@ -19,15 +19,15 @@
 			"request": "launch",
 			"runtimeExecutable": "${execPath}",
 			"args": [
-				"--extensionDevelopmentPath=${workspaceRoot}",
-				"--extensionTestsPath=${workspaceRoot}/out/test"
+				"--extensionDevelopmentPath=${workspaceFolder}",
+				"--extensionTestsPath=${workspaceFolder}/out/test"
 			],
 			"stopOnEntry": false,
 			"sourceMaps": true,
 			"outFiles": [
 				"out/test"
 			],
-			"preLaunchTask": "npm"
+			"preLaunchTask": "compile"
 		}
 	]
 }

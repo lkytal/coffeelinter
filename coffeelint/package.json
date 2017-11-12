@@ -184,13 +184,13 @@
 		"test": "node ./node_modules/vscode/bin/test"
 	},
 	"devDependencies": {
-		"typescript": "^2.5.3",
-		"vscode": "^1.1.5",
+		"typescript": "^2.6.1",
+		"vscode": "^1.1.6",
 		"mocha": "^4.0.1",
-		"@types/node": "^8.0.33",
-		"@types/mocha": "^2.2.43"
+		"@types/node": "^8.0.51",
+		"@types/mocha": "^2.2.44"
 	},
 	"dependencies": {
-		"vscode-languageclient": "^3.4.2"
+		"vscode-languageclient": "^3.5.0"
 	}
 }
