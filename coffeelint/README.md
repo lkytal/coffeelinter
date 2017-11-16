@@ -28,6 +28,10 @@ This extension contributes the following settings:
 
 ## Release Notes
 
+### 1.2.0
+
+- Tentative support multi workspace.
+
 ### 1.1.0
 
 - Upgrade to use coffeelint v2.

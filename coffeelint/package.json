@@ -26,8 +26,7 @@
 	"keywords": [
 		"coffee",
 		"coffeescript",
-		"linter",
-		"multi-root ready"
+		"linter"
 	],
 	"contributes": {
 		"configuration": {

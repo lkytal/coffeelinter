@@ -3,7 +3,9 @@
 		"target": "ES6",
 		"module": "commonjs",
 		"lib": [
-			"es6"
+			"es6",
+			"es2015",
+			"es7"
 		],
 		"rootDir": ".",
 		"outDir": "out",
