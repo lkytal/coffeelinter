@@ -183,7 +183,7 @@
 	"main": "./out/src/extension",
 	"scripts": {
 		"vscode:prepublish": "cd ../coffeelint-server && npm run compile && cd ../coffeelint && tsc -p ./",
-		"compile": "tsc -p ./",
+		"compile": "tsc -p ./ && cd ../coffeelint-server && npm run compile",
 		"watch": "tsc -watch -p ./",
 		"postinstall": "node ./node_modules/vscode/bin/install",
 		"test": "node ./node_modules/vscode/bin/test"

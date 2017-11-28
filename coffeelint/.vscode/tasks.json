@@ -5,7 +5,13 @@
 			"label": "compile",
 			"type": "npm",
 			"script": "compile",
-			"problemMatcher": []
+			"problemMatcher": ["$tsc"],
+			"presentation": {
+				"echo": true,
+				"reveal": "silent",
+				"focus": false,
+				"panel": "shared"
+			}
 		}
 	]
 }

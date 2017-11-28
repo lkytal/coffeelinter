@@ -5,7 +5,8 @@
 	"author": "lkytal",
 	"license": "GPL",
 	"engines": {
-		"node": "*"
+		"node": "*",
+		"vscode": "^1.15.0"
 	},
 	"devDependencies": {
 		"@types/mocha": "^2.2.44",

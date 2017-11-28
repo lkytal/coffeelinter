@@ -17,10 +17,10 @@ let connection: IConnection = createConnection(new IPCMessageReader(process), ne
 let documents: TextDocuments = new TextDocuments();
 documents.listen(connection);
 
-let coffeeLintConfigFile: string;
-let projectLintConfig = {};
 let enabled = true;
-let useWorkspace = false;
+let lintConfig = {};
+let settingConfig = {};
+let workspaceConfig = {};
 
 interface Settings {
 	coffeelinter: CoffeeLintSettings;
@@ -31,39 +31,48 @@ interface CoffeeLintSettings {
 	defaultRules: object;
 }
 
+function mergeConfig(_settingConfig, _workspaceConfig) {
+	settingConfig = _settingConfig;
+	workspaceConfig = _workspaceConfig;
+
+	lintConfig = Object.assign({}, settingConfig);
+	Object.assign(lintConfig, workspaceConfig);
+}
+
 connection.onDidChangeConfiguration((change) => {
 	let settings = <Settings>change.settings;
 	enabled = settings.coffeelinter.enable;
 
-	if (useWorkspace == false) {
-		projectLintConfig = settings.coffeelinter.defaultRules;
-	}
+	mergeConfig(settings.coffeelinter.defaultRules, workspaceConfig);
 
 	documents.all().forEach(validateTextDocument);
 });
 
-function loadWorkspaceConfig() {
+function loadWorkspaceConfig(coffeeLintConfigFile) {
 	try {
+		console.log(coffeeLintConfigFile);
+
 		let content = fs.readFileSync(coffeeLintConfigFile, 'utf-8').replace(new RegExp("//.*", "gi"), "");
-		projectLintConfig = JSON.parse(content);
-		useWorkspace = true;
+		workspaceConfig = JSON.parse(content);
 	}
 	catch (error) {
-		useWorkspace = false;
-		console.log("No locale lint config");
+		workspaceConfig = {};
+		console.log("No valide locale lint config");
 	}
+
+	mergeConfig(settingConfig, workspaceConfig);
 }
 
 connection.onDidChangeWatchedFiles((change) => {
-	loadWorkspaceConfig();
+	loadWorkspaceConfig(change.changes[0].uri);
 	documents.all().forEach(validateTextDocument);
 });
 
 connection.onInitialize((params): InitializeResult => {
-	let sourcePath = params.rootPath || "";
-	coffeeLintConfigFile = path.join(sourcePath, 'coffeelint.json');
+	let sourcePath = params.rootUri || "";
+	let coffeeLintConfigFile = path.join(sourcePath, 'coffeelint.json');
 
-	loadWorkspaceConfig();
+	loadWorkspaceConfig(coffeeLintConfigFile);
 
 	return {
 		capabilities: {
@@ -84,7 +93,7 @@ function validateTextDocument(textDocument: TextDocument): void {
 	}
 
 	let text = textDocument.getText();
-	let issues = coffeeLint.lint(text, projectLintConfig);
+	let issues = coffeeLint.lint(text, lintConfig);
 
 	for (let issue of issues) {
 		let severity;
