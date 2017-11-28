@@ -10,8 +10,8 @@
 	"devDependencies": {
 		"@types/mocha": "^2.2.44",
 		"@types/node": "^8.0.53",
-		"typescript": "^2.6.1",
-		"vscode": "^1.1.7"
+		"typescript": "^2.6.2",
+		"vscode": "^1.1.8"
 	},
 	"dependencies": {
 		"vscode-languageserver": "^3.5.0",

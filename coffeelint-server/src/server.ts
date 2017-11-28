@@ -1,5 +1,9 @@
 'use strict';
 
+import * as path from 'path';
+import * as fs from 'fs';
+import * as coffeeLint from 'coffeeLint';
+
 import {
 	IPCMessageReader, IPCMessageWriter,
 	createConnection, IConnection, TextDocumentSyncKind,
@@ -7,10 +11,6 @@ import {
 	InitializeParams, InitializeResult, TextDocumentIdentifier,
 	CompletionItem, CompletionItemKind
 } from 'vscode-languageserver';
-
-let coffeeLint = require('coffeelint');
-let fs = require('fs');
-let path = require('path');
 
 let connection: IConnection = createConnection(new IPCMessageReader(process), new IPCMessageWriter(process));
 
