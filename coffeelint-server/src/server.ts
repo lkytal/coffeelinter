@@ -2,7 +2,7 @@
 
 import * as path from 'path';
 import * as fs from 'fs';
-import * as coffeeLint from 'coffeeLint';
+import * as coffeeLint from 'coffeelint';
 const { URL } = require('url');
 
 import {

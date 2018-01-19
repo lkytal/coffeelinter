@@ -28,6 +28,10 @@ This extension contributes the following settings:
 
 ## Release Notes
 
+### 1.3.1
+
+- Fix coffeelint import.
+
 ### 1.3.0
 
 - Fix error that prevent workspace config to take effect.
