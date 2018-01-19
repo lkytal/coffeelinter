@@ -3,6 +3,7 @@
 import * as path from 'path';
 import * as fs from 'fs';
 import * as coffeeLint from 'coffeeLint';
+const { URL } = require('url');
 
 import {
 	IPCMessageReader, IPCMessageWriter,
@@ -48,15 +49,15 @@ connection.onDidChangeConfiguration((change) => {
 	documents.all().forEach(validateTextDocument);
 });
 
-function loadWorkspaceConfig(coffeeLintConfigFile) {
+function loadWorkspaceConfig(coffeeLintConfigURI: string) {
 	try {
-		console.log(coffeeLintConfigFile);
+		//console.log(coffeeLintConfigURI);
 
-		let content = fs.readFileSync(coffeeLintConfigFile, 'utf-8').replace(new RegExp("//.*", "gi"), "");
+		let content = fs.readFileSync(coffeeLintConfigURI, 'utf-8').replace(new RegExp("//.*", "gi"), "");
 		workspaceConfig = JSON.parse(content);
 	}
 	catch (error) {
-		workspaceConfig = {};
+		//workspaceConfig = {};
 		console.log("No valide locale lint config");
 	}
 
@@ -64,12 +65,12 @@ function loadWorkspaceConfig(coffeeLintConfigFile) {
 }
 
 connection.onDidChangeWatchedFiles((change) => {
-	loadWorkspaceConfig(change.changes[0].uri);
+	loadWorkspaceConfig(new URL(change.changes[0].uri));
 	documents.all().forEach(validateTextDocument);
 });
 
 connection.onInitialize((params): InitializeResult => {
-	let sourcePath = params.rootUri || "";
+	let sourcePath = params.rootPath || "";
 	let coffeeLintConfigFile = path.join(sourcePath, 'coffeelint.json');
 
 	loadWorkspaceConfig(coffeeLintConfigFile);

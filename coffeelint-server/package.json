@@ -9,10 +9,10 @@
 		"vscode": "^1.15.0"
 	},
 	"devDependencies": {
-		"@types/mocha": "^2.2.44",
-		"@types/node": "^8.0.53",
+		"@types/mocha": "^2.2.46",
+		"@types/node": "^9.3.0",
 		"typescript": "^2.6.2",
-		"vscode": "^1.1.8"
+		"vscode": "^1.1.10"
 	},
 	"dependencies": {
 		"vscode-languageserver": "^3.5.0",

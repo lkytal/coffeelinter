@@ -28,6 +28,10 @@ This extension contributes the following settings:
 
 ## Release Notes
 
+### 1.3.0
+
+- Fix error that prevent workspace config to take effect.
+
 ### 1.2.0
 
 - Tentative support multi workspace.
