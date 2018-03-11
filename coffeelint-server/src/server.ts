@@ -1,16 +1,16 @@
 'use strict';
 
-import * as path from 'path';
-import * as fs from 'fs';
 import * as coffeeLint from 'coffeelint';
-const { URL } = require('url');
+import * as fs from 'fs';
+import * as path from 'path';
+import { URL } from 'url';
 
 import {
-	IPCMessageReader, IPCMessageWriter,
-	createConnection, IConnection, TextDocumentSyncKind,
-	TextDocuments, TextDocument, Diagnostic, DiagnosticSeverity,
-	InitializeParams, InitializeResult, TextDocumentIdentifier,
-	CompletionItem, CompletionItemKind
+	CompletionItem, CompletionItemKind,
+	createConnection, Diagnostic, DiagnosticSeverity,
+	IConnection, InitializeParams, InitializeResult, IPCMessageReader,
+	IPCMessageWriter, TextDocument, TextDocumentIdentifier,
+	TextDocuments, TextDocumentSyncKind
 } from 'vscode-languageserver';
 
 let connection: IConnection = createConnection(new IPCMessageReader(process), new IPCMessageWriter(process));
@@ -23,25 +23,25 @@ let lintConfig = {};
 let settingConfig = {};
 let workspaceConfig = {};
 
-interface Settings {
-	coffeelinter: CoffeeLintSettings;
+interface ISettings {
+	coffeelinter: ICoffeeLintSettings;
 }
 
-interface CoffeeLintSettings {
-	enable: boolean,
+interface ICoffeeLintSettings {
+	enable: boolean;
 	defaultRules: object;
 }
 
-function mergeConfig(_settingConfig, _workspaceConfig) {
-	settingConfig = _settingConfig;
-	workspaceConfig = _workspaceConfig;
+function mergeConfig(paramSettingConfig, paramWorkspaceConfig) {
+	settingConfig = paramSettingConfig;
+	workspaceConfig = paramWorkspaceConfig;
 
 	lintConfig = Object.assign({}, settingConfig);
 	Object.assign(lintConfig, workspaceConfig);
 }
 
 connection.onDidChangeConfiguration((change) => {
-	let settings = <Settings>change.settings;
+	let settings = change.settings as ISettings;
 	enabled = settings.coffeelinter.enable;
 
 	mergeConfig(settings.coffeelinter.defaultRules, workspaceConfig);
@@ -49,15 +49,15 @@ connection.onDidChangeConfiguration((change) => {
 	documents.all().forEach(validateTextDocument);
 });
 
-function loadWorkspaceConfig(coffeeLintConfigURI: string) {
+function loadWorkspaceConfig(coffeeLintConfigURI) {
 	try {
-		//console.log(coffeeLintConfigURI);
+		// console.log(coffeeLintConfigURI);
 
 		let content = fs.readFileSync(coffeeLintConfigURI, 'utf-8').replace(new RegExp("//.*", "gi"), "");
 		workspaceConfig = JSON.parse(content);
 	}
 	catch (error) {
-		//workspaceConfig = {};
+		// workspaceConfig = {};
 		console.log("No valide locale lint config");
 	}
 
@@ -79,7 +79,7 @@ connection.onInitialize((params): InitializeResult => {
 		capabilities: {
 			textDocumentSync: documents.syncKind
 		}
-	}
+	};
 });
 
 documents.onDidChangeContent((change) => {

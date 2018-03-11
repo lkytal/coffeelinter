@@ -28,6 +28,10 @@ This extension contributes the following settings:
 
 ## Release Notes
 
+### 1.4.0
+
+- Update to newest VSCode language server model.
+
 ### 1.3.1
 
 - Fix coffeelint import.
