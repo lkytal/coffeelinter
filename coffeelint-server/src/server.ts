@@ -3,6 +3,7 @@
 import * as coffeeLint from 'coffeelint';
 import * as fs from 'fs';
 import * as path from 'path';
+import configFinder from 'coffeelint/lib/configfinder';
 import { URL } from 'url';
 
 import {
@@ -51,14 +52,10 @@ connection.onDidChangeConfiguration((change) => {
 
 function loadWorkspaceConfig(coffeeLintConfigURI) {
 	try {
-		// console.log(coffeeLintConfigURI);
-
-		let content = fs.readFileSync(coffeeLintConfigURI, 'utf-8').replace(new RegExp("//.*", "gi"), "");
-		workspaceConfig = JSON.parse(content);
+		workspaceConfig = configFinder.getConfig(coffeeLintConfigURI);
 	}
 	catch (error) {
-		// workspaceConfig = {};
-		console.log("No valide locale lint config");
+		console.log("No valid local lint config");
 	}
 
 	mergeConfig(settingConfig, workspaceConfig);
