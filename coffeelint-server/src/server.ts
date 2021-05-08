@@ -91,7 +91,8 @@ function validateTextDocument(textDocument: TextDocument): void {
 	}
 
 	let text = textDocument.getText();
-	let issues = coffeeLint.lint(text, lintConfig);
+	let literate = textDocument.uri.substr(textDocument.uri.length - 10) == '.litcoffee';
+	let issues = coffeeLint.lint(text, lintConfig, literate);
 
 	for (let issue of issues) {
 		let severity;
