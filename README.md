@@ -1,7 +1,7 @@
 # Coffee Lint for VSCode
 
-<a href="https://marketplace.visualstudio.com/items?itemName=lkytal.coffeelinter"><img src="http://vsmarketplacebadge.apphb.com/version/lkytal.coffeelinter.svg?style=flat-square" alt="Installs"></a>
-<a href="https://marketplace.visualstudio.com/items?itemName=lkytal.coffeelinter"><img src="http://vsmarketplacebadge.apphb.com/installs/lkytal.coffeelinter.svg?style=flat-square" alt="Installs"></a>
+<a href="https://marketplace.visualstudio.com/items?itemName=lkytal.coffeelinter"><img src="https://vsmarketplacebadges.dev/version/lkytal.coffeelinter.svg?style=flat-square" alt="Version"></a>
+<a href="https://marketplace.visualstudio.com/items?itemName=lkytal.coffeelinter"><img src="https://vsmarketplacebadges.dev/installs/lkytal.coffeelinter.svg?style=flat-square" alt="Installs"></a>
 
 > Install [Coffee Lint](https://marketplace.visualstudio.com/items?itemName=lkytal.coffeelinter) via VSCode market.
 

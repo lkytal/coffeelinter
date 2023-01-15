@@ -1,7 +1,7 @@
 # Coffee Lint for VSCode
 
-[![Dependency status](https://david-dm.org/lkytal/coffeelinter.svg?style=flat-square)](https://david-dm.org/lkytal/coffeelinter.svg?style=flat-square)
-<a href="https://marketplace.visualstudio.com/items?itemName=lkytal.coffeelinter"><img src="https://vsmarketplacebadge.apphb.com/installs/lkytal.coffeelinter.svg?style=flat-square" alt="Installs"></a>
+<a href="https://marketplace.visualstudio.com/items?itemName=lkytal.coffeelinter"><img src="https://vsmarketplacebadges.dev/version/lkytal.coffeelinter.svg?style=flat-square" alt="Version"></a>
+<a href="https://marketplace.visualstudio.com/items?itemName=lkytal.coffeelinter"><img src="https://vsmarketplacebadges.dev/installs/lkytal.coffeelinter.svg?style=flat-square" alt="Installs"></a>
 
 > Licensed by <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" title="Creative Commons BY-NC-SA 4.0" target="_blank">CC 4.0 BY-NC-SA</a>
 
@@ -27,6 +27,10 @@ This extension contributes the following settings:
 - ### [Translator Plus](https://marketplace.visualstudio.com/items?itemName=lkytal.translatorplus)
 
 ## Release Notes
+
+### 1.4.1
+
+- Fixed broken badge link.
 
 ### 1.4.0
 
