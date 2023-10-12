@@ -1,33 +1,53 @@
-'use strict';
+import * as path from "path";
+import { ExtensionContext, workspace } from "vscode";
+import {
+  LanguageClient,
+  LanguageClientOptions,
+  ServerOptions,
+  TransportKind,
+} from "vscode-languageclient/node";
 
-import * as path from 'path';
-
-import { Disposable, ExtensionContext, workspace } from 'vscode';
-// tslint:disable-next-line:max-line-length
-import { LanguageClient, LanguageClientOptions, ServerOptions, SettingMonitor, TransportKind } from 'vscode-languageclient';
+let client: LanguageClient;
 
 export function activate(context: ExtensionContext) {
-	let serverModule = context.asAbsolutePath(path.join('server/src', 'server.js'));
-	let debugOptions = { execArgv: ["--nolazy", "--debug=6004"] };
+  const serverModule = context.asAbsolutePath(
+    path.join("server", "out", "server.js")
+  );
+  // const debugOptions = { execArgv: ["--nolazy", "--debug=6004"] };
 
-	let serverOptions: ServerOptions = {
-		run: { module: serverModule, transport: TransportKind.ipc },
-		debug: { module: serverModule, transport: TransportKind.ipc, options: debugOptions }
-	};
+  // If the extension is launched in debug mode then the debug server options are used
+  // Otherwise the run options are used
+  const serverOptions: ServerOptions = {
+    run: { module: serverModule, transport: TransportKind.ipc },
+    debug: {
+      module: serverModule,
+      transport: TransportKind.ipc,
+      // options: debugOptions,
+    },
+  };
 
-	let clientOptions: LanguageClientOptions = {
-		documentSelector: ['coffeescript'],
-		diagnosticCollectionName: 'coffeelint',
-		synchronize: {
-			configurationSection: 'coffeelinter',
-			fileEvents: workspace.createFileSystemWatcher('**/coffeelint.json')
-		}
-	};
+  const clientOptions: LanguageClientOptions = {
+    documentSelector: [{ scheme: "file", language: "coffeescript" }],
+    diagnosticCollectionName: "coffeelint",
+    synchronize: {
+      configurationSection: "coffeelinter",
+      fileEvents: workspace.createFileSystemWatcher("**/coffeelint.json"),
+    },
+  };
 
-	let client = new LanguageClient('CoffeeLint Client', serverOptions, clientOptions);
-	context.subscriptions.push(client.start());
+  client = new LanguageClient(
+    "lkytal.coffeelinter.language-client",
+    "CoffeeLint Client",
+    serverOptions,
+    clientOptions
+  );
+  client.start();
 }
 
-export function deactivate() {
-	console.log("CoffeeLint deactivate");
+export function deactivate(): Thenable<void> | undefined {
+  console.log("CoffeeLint deactivate");
+  if (!client) {
+    return undefined;
+  }
+  return client.stop();
 }

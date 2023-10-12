@@ -1,17 +1,16 @@
 {
 	"compilerOptions": {
-		"target": "ES6",
+		"target": "es2020",
+    "esModuleInterop": true,
+		"lib": ["es2020"],
 		"module": "commonjs",
-		"lib": [
-			"es5",
-			"es2015",
-			"es2016"
-		],
-		"rootDir": ".",
+		"moduleResolution": "node",
 		"sourceMap": true,
-		"outDir": "../coffeelint/server"
+		"strict": true,
+		"outDir": "out",
+		"rootDir": "src",
+    "types": ["./coffeelint.d.ts"]
 	},
-	"exclude": [
-		"node_modules"
-	]
+	"include": ["src"],
+	"exclude": ["node_modules", ".vscode-test"]
 }

@@ -1,25 +1,17 @@
 {
-	"name": "coffeelint-server",
-	"description": "Coffeelint server for vscode",
-	"version": "1.1.0",
-	"author": "lkytal",
-	"license": "GPL",
-	"engines": {
-		"node": "*",
-		"vscode": "^1.15.0"
-	},
-	"devDependencies": {
-		"@types/mocha": "^2.2.48",
-		"@types/node": "^9.4.7",
-		"typescript": "^2.7.2",
-		"vscode": "^1.1.13"
-	},
-	"dependencies": {
-		"vscode-languageserver": "^4.0.0",
-		"coffeelint": "^2.1.0"
-	},
-	"scripts": {
-		"compile": "installServerIntoExtension ../coffeelint ./package.json ./tsconfig.json && tsc -p .",
-		"watch": "installServerIntoExtension ../coffeelint ./package.json ./tsconfig.json && tsc --watch -p ."
-	}
+  "name": "coffeelinter-server",
+  "description": "Coffeelint server for vscode",
+  "version": "1.5.0",
+  "author": "lkytal",
+  "license": "GPL",
+  "engines": {
+    "node": "*",
+    "vscode": "^1.83.0"
+  },
+  "dependencies": {
+    "coffeelint": "^2.1.0",
+    "vscode-languageserver": "^9.0.0",
+    "vscode-languageserver-textdocument": "^1.0.8"
+  },
+  "scripts": {}
 }
