@@ -1,31 +1,13 @@
-"use strict";
-
 import * as coffeeLint from "coffeelint";
 import configFinder from "coffeelint/lib/configfinder";
-// import * as fs from "fs";
-// import * as path from "path";
-// import { URL } from "url";
+import { URL } from "url";
 
 import {
   createConnection,
   TextDocuments,
   Diagnostic,
   DiagnosticSeverity,
-
-  // ProposedFeatures,
-  // InitializeParams,
-  // DidChangeConfigurationNotification,
-
-  // CompletionItem,
-  // CompletionItemKind,
-
-  // TextDocumentPositionParams,
-  // TextDocumentSyncKind,
   InitializeResult,
-
-  // IConnection,
-  // IPCMessageReader,
-  // IPCMessageWriter,
   ProposedFeatures,
   InitializeParams,
   TextDocumentSyncKind,
@@ -35,11 +17,6 @@ import {
 import { TextDocument } from "vscode-languageserver-textdocument";
 
 const connection = createConnection(ProposedFeatures.all);
-// const connection = createConnection(
-//   new IPCMessageReader(process),
-//   new IPCMessageWriter(process)
-// );
-
 const documents: TextDocuments<TextDocument> = new TextDocuments(TextDocument);
 
 let hasConfigurationCapability = false;
@@ -89,13 +66,9 @@ connection.onInitialized(() => {
       undefined
     );
   }
-  // We could read and cache the .coffeelint.json for each workspace
-  // and update that cache automatically on workspace folder change...
-  //
   // if (hasWorkspaceFolderCapability) {
   //   connection.workspace.onDidChangeWorkspaceFolders((_event) => {
   //     connection.console.log("Workspace folder change event received.");
-  //     // TODO need to load see if we should load a different coffee config from the new folder?
   //   });
   // }
 });
@@ -246,7 +219,7 @@ const defaultSettings: CoffeeLintSettings = {
 let globalSettings: CoffeeLintSettings = defaultSettings;
 
 // Cache the settings of all open documents
-const documentSettings: Map<string, Thenable<CoffeeLintSettings>> = new Map();
+const documentSettings: Map<string, CoffeeLintSettings> = new Map();
 
 connection.onDidChangeConfiguration((change) => {
   if (hasConfigurationCapability) {
@@ -266,32 +239,26 @@ async function getDocumentSettings(
   resource: string
 ): Promise<CoffeeLintSettings> {
   if (!hasConfigurationCapability) {
-    return Promise.resolve(globalSettings);
+    const config = configFinder.getConfig(new URL(resource).pathname);
+    return Promise.resolve({
+      ...globalSettings,
+      defaultRules: config ?? { ...globalSettings.defaultRules },
+    });
   }
 
   let result = documentSettings.get(resource);
   if (!result) {
-    result = connection.workspace.getConfiguration({
+    result = await connection.workspace.getConfiguration({
       scopeUri: resource,
       section: "coffeelinter",
     });
-    result.then((settings) => {
-      if (!hasWorkspaceFolderCapability) {
-        // FIXME need to merge in the coffeelint.json
-        // but how can we call getWorkspaceFolder(resource) to know our base path?
-        // it doesn't exist on connection.workspace
-        // const sourcePath = connection.workspace.getWorkspaceFolder(resource);
-        // let coffeeLintConfigFile = path.join(sourcePath, 'coffeelint.json');
-        // loadWorkspaceConfig(coffeeLintConfigFile);
-      } else {
-        // FIXME how to get root path?
-        // merge coffeelint.json from root path
-        // let sourcePath = resource.rootUri || "";
-        // let coffeeLintConfigFile = path.join(sourcePath, 'coffeelint.json');
-        // loadWorkspaceConfig(coffeeLintConfigFile);
-      }
-      return settings;
-    });
+    if (!result) {
+      result = { ...globalSettings };
+    }
+    const config = configFinder.getConfig(new URL(resource).pathname);
+    if (config) {
+      result.defaultRules = config;
+    }
     documentSettings.set(resource, result);
   }
   return result;
@@ -308,34 +275,10 @@ documents.onDidChangeContent((change) => {
   validateTextDocument(change.document);
 });
 
-// let enabled = true;
-let lintConfig = {};
-let settingConfig = {};
-let workspaceConfig = {};
-
-function mergeConfig(paramSettingConfig: object, paramWorkspaceConfig: object) {
-  settingConfig = paramSettingConfig;
-  workspaceConfig = paramWorkspaceConfig;
-
-  lintConfig = Object.assign({}, settingConfig);
-  Object.assign(lintConfig, workspaceConfig);
-}
-
-function loadWorkspaceConfig(coffeeLintConfigURI: string) {
-  try {
-    workspaceConfig = configFinder.getConfig(coffeeLintConfigURI);
-  } catch (error) {
-    console.log("No valid local lint config");
-  }
-
-  mergeConfig(settingConfig, workspaceConfig);
-}
-
 async function validateTextDocument(textDocument: TextDocument): Promise<void> {
   const diagnostics: Diagnostic[] = [];
   const settings = await getDocumentSettings(textDocument.uri);
 
-  console.log("CoffeeLint settings for " + textDocument.uri, settings);
   if (!settings.enable) {
     return connection.sendDiagnostics({ uri: textDocument.uri, diagnostics });
   }
@@ -343,7 +286,7 @@ async function validateTextDocument(textDocument: TextDocument): Promise<void> {
   const text = textDocument.getText();
   const literate =
     textDocument.uri.slice(textDocument.uri.length - 10) == ".litcoffee";
-  const issues = coffeeLint.lint(text, lintConfig, literate);
+  const issues = coffeeLint.lint(text, settings.defaultRules, literate);
 
   for (const issue of issues) {
     let severity;
@@ -384,47 +327,6 @@ async function validateTextDocument(textDocument: TextDocument): Promise<void> {
   // Send the computed diagnostics to VSCode.
   connection.sendDiagnostics({ uri: textDocument.uri, diagnostics });
 }
-
-// connection.onDidChangeWatchedFiles(_change => {
-// 	// Monitored files have change in VSCode
-// 	connection.console.log('We received an file change event');
-// });
-
-// // This handler provides the initial list of the completion items.
-// connection.onCompletion(
-// 	(_textDocumentPosition: TextDocumentPositionParams): CompletionItem[] => {
-// 		// The pass parameter contains the position of the text document in
-// 		// which code complete got requested. For the example we ignore this
-// 		// info and always provide the same completion items.
-// 		return [
-// 			{
-// 				label: 'TypeScript',
-// 				kind: CompletionItemKind.Text,
-// 				data: 1
-// 			},
-// 			{
-// 				label: 'JavaScript',
-// 				kind: CompletionItemKind.Text,
-// 				data: 2
-// 			}
-// 		];
-// 	}
-// );
-
-// // This handler resolves additional information for the item selected in
-// // the completion list.
-// connection.onCompletionResolve(
-// 	(item: CompletionItem): CompletionItem => {
-// 		if (item.data === 1) {
-// 			item.detail = 'TypeScript details';
-// 			item.documentation = 'TypeScript documentation';
-// 		} else if (item.data === 2) {
-// 			item.detail = 'JavaScript details';
-// 			item.documentation = 'JavaScript documentation';
-// 		}
-// 		return item;
-// 	}
-// );
 
 // Make the text document manager listen on the connection
 // for open, change and close text document events
