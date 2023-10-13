@@ -1,1 +1,0 @@
-#CoffeeLinter Server

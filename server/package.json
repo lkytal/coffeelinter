@@ -1,0 +1,17 @@
+{
+  "name": "coffeelinter-server",
+  "description": "Coffeelint server for vscode",
+  "version": "1.5.0",
+  "author": "lkytal",
+  "license": "GPL",
+  "engines": {
+    "node": "*",
+    "vscode": "^1.83.0"
+  },
+  "dependencies": {
+    "coffeelint": "^2.1.0",
+    "vscode-languageserver": "^9.0.0",
+    "vscode-languageserver-textdocument": "^1.0.8"
+  },
+  "scripts": {}
+}
