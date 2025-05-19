@@ -9,14 +9,17 @@ import { URL } from 'url';
 import {
 	CompletionItem, CompletionItemKind,
 	createConnection, Diagnostic, DiagnosticSeverity,
-	IConnection, InitializeParams, InitializeResult, IPCMessageReader,
-	IPCMessageWriter, TextDocument, TextDocumentIdentifier,
-	TextDocuments, TextDocumentSyncKind
-} from 'vscode-languageserver';
+	Connection, InitializeParams, InitializeResult, IPCMessageReader,
+	IPCMessageWriter, TextDocumentIdentifier, TextDocuments, TextDocumentSyncKind, TextDocumentItem, TextDocumentsConfiguration
+} from 'vscode-languageserver/node';
 
-let connection: IConnection = createConnection(new IPCMessageReader(process), new IPCMessageWriter(process));
+let connection: Connection = createConnection(new IPCMessageReader(process), new IPCMessageWriter(process));
 
-let documents: TextDocuments = new TextDocuments();
+import {
+	TextDocument
+} from 'vscode-languageserver-textdocument';
+
+const documents = new TextDocuments(TextDocument);
 documents.listen(connection);
 
 let enabled = true;
@@ -62,19 +65,22 @@ function loadWorkspaceConfig(coffeeLintConfigURI) {
 }
 
 connection.onDidChangeWatchedFiles((change) => {
-	loadWorkspaceConfig(new URL(change.changes[0].uri));
+	const changedFileUri = change.changes[0].uri;
+	const changedFilePath = new URL(changedFileUri).pathname;
+	const changedFileDir = path.dirname(changedFilePath);
+	loadWorkspaceConfig(changedFileDir);
 	documents.all().forEach(validateTextDocument);
 });
 
 connection.onInitialize((params): InitializeResult => {
 	let sourcePath = params.rootPath || "";
-	let coffeeLintConfigFile = path.join(sourcePath, 'coffeelint.json');
+	// let coffeeLintConfigFile = path.join(sourcePath, 'coffeelint.json');
 
-	loadWorkspaceConfig(coffeeLintConfigFile);
+	loadWorkspaceConfig(sourcePath);
 
 	return {
 		capabilities: {
-			textDocumentSync: documents.syncKind
+			textDocumentSync: TextDocumentSyncKind.Full
 		}
 	};
 });
@@ -87,10 +93,10 @@ function validateTextDocument(textDocument: TextDocument): void {
 	let diagnostics: Diagnostic[] = [];
 
 	if (!enabled) {
-		return connection.sendDiagnostics({ uri: textDocument.uri, diagnostics });
+		connection.sendDiagnostics({ uri: textDocument.uri, diagnostics });
 	}
 
-	let text = textDocument.getText();
+	let text = documents.get(textDocument.uri)?.getText() || '';
 	let issues = coffeeLint.lint(text, lintConfig);
 
 	for (let issue of issues) {

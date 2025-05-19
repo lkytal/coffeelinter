@@ -108,3 +108,5 @@ linkMixInit = () ->
 	observer.observe document.body, { childList: true, subtree: true }
 
 setTimeout linkMixInit, 100
+
+	setTimeout linkMixInit, 100

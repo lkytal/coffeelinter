@@ -3,12 +3,11 @@
 import * as path from 'path';
 
 import { Disposable, ExtensionContext, workspace } from 'vscode';
-// tslint:disable-next-line:max-line-length
-import { LanguageClient, LanguageClientOptions, ServerOptions, SettingMonitor, TransportKind } from 'vscode-languageclient';
+import { LanguageClient, LanguageClientOptions, ServerOptions, TransportKind } from 'vscode-languageclient/node';
 
 export function activate(context: ExtensionContext) {
 	let serverModule = context.asAbsolutePath(path.join('server/src', 'server.js'));
-	let debugOptions = { execArgv: ["--nolazy", "--debug=6004"] };
+	let debugOptions = { execArgv: ["--nolazy", "--inspect=6004"] };
 
 	let serverOptions: ServerOptions = {
 		run: { module: serverModule, transport: TransportKind.ipc },
@@ -25,7 +24,8 @@ export function activate(context: ExtensionContext) {
 	};
 
 	let client = new LanguageClient('CoffeeLint Client', serverOptions, clientOptions);
-	context.subscriptions.push(client.start());
+	client.start();
+	context.subscriptions.push(client);
 }
 
 export function deactivate() {

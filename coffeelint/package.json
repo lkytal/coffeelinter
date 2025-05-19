@@ -4,7 +4,7 @@
 	"description": "CoffeeScript linter for VS Code.",
 	"author": "lkytal",
 	"publisher": "lkytal",
-	"version": "1.4.1",
+	"version": "1.5.0",
 	"license": "GPL",
 	"repository": {
 		"type": "git",
@@ -185,17 +185,17 @@
 		"vscode:prepublish": "cd ../coffeelint-server && npm run compile && cd ../coffeelint && tsc -p ./",
 		"compile": "tsc -p ./ && cd ../coffeelint-server && npm run compile",
 		"watch": "tsc -watch -p ./",
-		"postinstall": "node ./node_modules/vscode/bin/install",
 		"test": "node ./node_modules/vscode/bin/test"
 	},
 	"devDependencies": {
-		"typescript": "^2.7.2",
-		"vscode": "^1.1.13",
-		"mocha": "^5.0.4",
-		"@types/node": "^9.4.7",
-		"@types/mocha": "^2.2.48"
+		"@types/mocha": "^10.0.10",
+		"@types/node": "^22.15.19",
+		"@types/vscode": "^1.100.0",
+		"mocha": "^11.3.0",
+		"typescript": "^5.8.3",
+		"vscode-test": "^1.6.1"
 	},
 	"dependencies": {
-		"vscode-languageclient": "^4.0.0"
+		"vscode-languageclient": "^9.0.1"
 	}
 }
