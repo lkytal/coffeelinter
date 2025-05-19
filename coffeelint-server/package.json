@@ -6,7 +6,7 @@
 	"license": "GPL",
 	"engines": {
 		"node": "*",
-		"vscode": "^1.15.0"
+		"vscode": "^1.100.0"
 	},
 	"devDependencies": {
 		"@types/mocha": "^10.0.10",
